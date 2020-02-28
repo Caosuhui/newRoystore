@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use EasyWeChat\Kernel\Log;
 
-class WeChatController extends Controller
+use EasyWeChat\Kernel\Log;
+use EasyWeChat;
+use EasyWeChat\Factory;
+
+class WechatController extends Controller
 {
     /**
      * 处理微信的请求消息
@@ -14,13 +17,12 @@ class WeChatController extends Controller
      */
     public function serve()
     {
-        Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
-
-        $app = app('wechat.official_account');
+        $config = config('wechat.official_account.default');
+        $app    = Factory::officialAccount($config);
         $app->server->push(function($message){
-            return "欢迎关注 依豆良品！";
+            return "您好！欢迎关注 roystore！";
         });
-
-        return $app->server->serve();
+        $response =  $app->server->serve();
+        $response->send();
     }
 }

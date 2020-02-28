@@ -16,4 +16,5 @@ Route::get('/', function () {
 });
 
 
-Route::any('/wechat', 'WeChatController@serve');
+Route::any('/wechat', 'WechatController@serve');
+
