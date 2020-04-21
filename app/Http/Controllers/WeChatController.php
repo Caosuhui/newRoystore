@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Log;
 use EasyWeChat;
 use EasyWeChat\Factory;
 
+
 class WechatController extends Controller
 {
     /**
@@ -17,12 +18,13 @@ class WechatController extends Controller
      */
     public function serve()
     {
+       // dd(env('WECHAT_LOG_FILE'),storage_path('logs/wechat.log'));
         $config = config('wechat.official_account.default');
         $app    = Factory::officialAccount($config);
-        $app->server->push(function($message){
+        $app->server->push(function($message) {
             return "您好！欢迎关注 roystore！";
         });
         $response =  $app->server->serve();
-        $response->send();
+        return $response;
     }
 }
